@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Generator</title>
+    <style>
+        * {box-sizing: border-box;}
+        .form {
+            max-width: 25em; margin: 2em auto; padding: 2em;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; gap: .2em;
+        }
+        .data {
+            width: 100%; display: flex; justify-content: center; align-items: center; gap: .2em;
+        }
+        .i {width: 100%; font-size: .8em; padding: .2em .3em;}
+        #submit {width: 100%; font-size: .8em; padding: .4em; font-weight: bold; background-color: skyblue; cursor: pointer;}
+
+
+
+
+        .cardContainer {
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .card {
+            display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: lightgreen;
+            min-width: 15em; padding: 1em; border-radius: .5em; gap: .5em; margin: auto;
+        }
+        .container {width: 100%; display: flex; justify-content: space-between; gap: 2em;}
+        .label, .pr {font-weight: bold; width: 100%;}
+        .label {text-align: left;} .pr {text-align: right;}
+        #prUserName, #prFullName {text-align: center; margin: auto;}
+        #prUserName {opacity: .6;}
+        .label {opacity: .7;}
+        img {height: 5em; width: 5em; display: block; margin: 2em 0; border-radius: 50%;}
+
+        .cardEdit {
+            display: flex; gap: 1em; margin: 1.5em;
+        }
+        .btn {width: 5em; border: none; background-color: yellow; text-align: center; padding: .5em; border-radius: .4em; cursor: pointer;}
+        .btn--txt {text-decoration: line-through;}
+
+
+        
+
+        @media print {
+            body {visibility: hidden;}
+            #card {visibility: visible;}
+        }
+    </style>
+</head>
+<body>
+    <!-- input -->
+    <form action="" class="form" id="form">
+        <span class="data data--name" id="data--name">
+            <input type="text" name="fullName" class="i iFullName" id="iFullName" placeholder="Full Name">
+            <input type="text" name="userName" class="i iUserName" id="iUserName" placeholder="User Name">
+        </span>
+        <span class="data data--id" id="data--id">
+            <input type="number" name="Batch" class="i iBatch" id="iBatch" placeholder="Batch">
+            <input type="number" name="Code" class="i iCode" id="iCode" placeholder="Code">
+            <input type="number" name="Initial" class="i iInitial" id="iInitial" placeholder="Initial">
+        </span>
+        <input type="email" name="email" class="i iEmail" id="iEmail" placeholder="Email Address">
+        <span class="data data--uni" id="data--uni">
+            <input type="text" name="uni" class="i iUni" id="iUni" placeholder="University">
+            <input type="text" name="dept" class="i iDept" id="iDept" placeholder="Department">
+        </span>
+        <input type="submit" id="submit" value="Create Card">
+    </form>
+
+    <!-- print -->
+    <section class="cardContainer" id="cardContainer">
+        <section class="card" id="card">
+            <span class="container container--fullName" id="container--fullName">
+                <samp class="pr prFullName" id="prFullName">Full Name</samp>
+            </span>
+            <span class="container container--userName" id="container--userName">
+                <samp class="pr prUserName" id="prUserName">@abc</samp>
+            </span>
+                <!-- image input opens -->
+                    <input type="file" name="image" class="i iImage" id="iImage" style="display: none;">
+                    <label for="iImage" class="iImage--label" id="iImage--label">
+                        <img src="https://i.postimg.cc/sfN6YhvT/blank-profile-picture-973460-960-720.png" alt="Upload Image" class="disImg" id="disImg">
+                        <!-- https://i.postimg.cc/sfN6YhvT/blank-profile-picture-973460-960-720.png -->
+                    </label>
+                <!-- image input ends -->
+            <span class="container container--stid" id="container--stid">
+                <samp class="label label--stid">Student Id</samp> <samp class="pr prStid" id="prStid"></samp>
+            </span>
+            <span class="container container--email" id="container--email">
+                <samp class="label label--email">Email</samp> <samp class="pr prEmail" id="prEmail"></samp>
+            </span>
+            <span class="container container--uni" id="container--uni">
+                <samp class="label label--uni">University</samp> <samp class="pr prUni" id="prUni"></samp>
+            </span>
+            <span class="container container--dept" id="container--dept">
+                <samp class="label label--dept">Department</samp> <samp class="pr prDept" id="prDept"></samp>
+            </span>
+        </section>
+        <section class="cardEdit">
+            <input type="color" id="btn--txt" style="position: absolute; scale: 0;"> <label for="btn--txt" class="btn btn--txt">abc</label>
+            <input type="color" id="btn--bg" style="position: absolute; scale: 0;"> <label for="btn--bg" class="btn btn--bg">BG</label>
+            <button class="btn btn--print" id="btn--print">Print</button>
+        </section>
+    </section>
+
+
+
+
+    <script>
+        // receive
+        let studentData = {};
+        document.getElementById('submit').onclick = function() {
+            event.preventDefault();
+                studentData = {
+                rFullName : document.getElementById('iFullName').value,
+                rUserName : document.getElementById('iUserName').value,
+                rBatch : document.getElementById('iBatch').value,
+                rCode : document.getElementById('iCode').value,
+                rInitial : document.getElementById('iInitial').value,
+                studentID : function() {
+                    return studentData.rBatch + '-' + studentData.rCode + '-' + studentData.rInitial;
+                },
+                rEmail : document.getElementById('iEmail').value,
+                rUni : document.getElementById('iUni').value,
+                rDept : document.getElementById('iDept').value
+            };
+            document.getElementById('prFullName').innerHTML = studentData.rFullName;
+            document.getElementById('prUserName').innerHTML = studentData.rUserName;
+            document.getElementById('prStid').innerHTML = studentData.studentID();
+            document.getElementById('prEmail').innerHTML = studentData.rEmail;
+            document.getElementById('prUni').innerHTML = studentData.rUni;
+            document.getElementById('prDept').innerHTML = studentData.rDept;
+        }
+
+        // image upload
+        document.getElementById('iImage').onchange = function() {document.getElementById('disImg').src = URL.createObjectURL(iImage.files[0]);}
+
+        // text & bg color 
+        document.getElementById('btn--txt').onchange = function() {document.getElementById('card').style.color = this.value;}
+        document.getElementById('btn--bg').onchange = function() {document.getElementById('card').style.backgroundColor = this.value;}
+
+        // printCard
+        document.getElementById('btn--print').onclick = function() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
